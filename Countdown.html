@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Admission 2025–26</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #004e92, #000428);
+      color: #fff;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #aad3ff;
+      margin-bottom: 2rem;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .time-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      min-width: 90px;
+    }
+
+    .time-box span {
+      display: block;
+    }
+
+    .number {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .label {
+      font-size: 1rem;
+      color: #a0c4ff;
+      margin-top: 8px;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9rem;
+      color: #b0c4de;
+    }
+  </style>
+</head>
+<body>
+  <h1>Medical Admission 2025–26</h1>
+  <h2>Subtle Time Left ⏳</h2>
+  <div class="countdown" id="countdown">
+    <div class="time-box"><span class="number" id="days">--</span><span class="label">Days</span></div>
+    <div class="time-box"><span class="number" id="hours">--</span><span class="label">Hours</span></div>
+    <div class="time-box"><span class="number" id="minutes">--</span><span class="label">Minutes</span></div>
+    <div class="time-box"><span class="number" id="seconds">--</span><span class="label">Seconds</span></div>
+  </div>
+  <footer>Made with ❤️ for future doctors</footer>
+
+  <script>
+    const examDate = new Date("December 12, 2025 10:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = examDate - now;
+
+      if (distance <= 0) {
+        document.getElementById("countdown").innerHTML = "<h2>Exam Day Has Arrived! 🎓</h2>";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours;
+      document.getElementById("minutes").innerText = minutes;
+      document.getElementById("seconds").innerText = seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
