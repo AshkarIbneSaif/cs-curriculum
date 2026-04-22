@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CS Curriculum — World-Class Self-Study Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a0f;
+    color: #e8e8f0;
+    font-family: 'Space Mono', 'Courier New', monospace;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0a0a0f 0%, #12122a 50%, #0a0a0f 100%);
+    border-bottom: 1px solid #1e1e3a;
+    padding: 44px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 20% 50%, rgba(0,255,178,.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0,212,255,.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .label {
+    font-size: 11px; letter-spacing: 4px; color: #00FFB2;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 900; letter-spacing: -1px;
+    background: linear-gradient(90deg, #fff, #00D4FF);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 8px;
+  }
+  .subtitle {
+    color: #6666aa; font-size: 13px; letter-spacing: 1px; margin-bottom: 28px;
+  }
+  .channels {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; max-width: 720px; margin: 0 auto;
+  }
+  .channel-pill {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 11px; display: flex; align-items: center; gap: 6px;
+  }
+  .channel-pill .arrow { color: #FF6B6B; }
+  .channel-pill .name  { color: #ccc; }
+  .channel-pill .tag   {
+    background: rgba(0,255,178,.1); color: #00FFB2;
+    padding: 1px 6px; border-radius: 10px; font-size: 10px;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex; overflow-x: auto; gap: 0;
+    background: #0d0d1a;
+    border-bottom: 1px solid #1e1e3a;
+    padding: 0 16px;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none; border: none;
+    border-bottom: 2px solid transparent;
+    color: #555; padding: 14px 16px;
+    font-size: 12px; cursor: pointer;
+    white-space: nowrap; letter-spacing: .5px;
+    font-family: 'Space Mono', monospace;
+    transition: color .2s;
+  }
+  .tab.active { color: var(--c); border-bottom-color: var(--c); }
+
+  /* ── MAIN ── */
+  main { max-width: 800px; margin: 0 auto; padding: 28px 16px 72px; }
+
+  /* Semester header */
+  .sem-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 24px; padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .sem-icon { font-size: 30px; }
+  .sem-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
+  .sem-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #fff; }
+
+  /* Panel (subject) */
+  .panel { margin-bottom: 12px; border: 1px solid #1e1e3a; border-radius: 12px; overflow: hidden; transition: border-color .3s; }
+  .panel.open { border-color: var(--c4); }
+
+  .panel-btn {
+    width: 100%; background: #111120; border: none; color: #fff;
+    padding: 18px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; text-align: left; transition: background .3s;
+  }
+  .panel.open .panel-btn { background: rgba(255,255,255,.04); }
+  .panel-btn-left { display: flex; align-items: center; gap: 12px; }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--c); box-shadow: 0 0 8px var(--c); flex-shrink: 0;
+  }
+  .panel-name {
+    font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700;
+    color: #e8e8f0; transition: color .3s;
+  }
+  .panel.open .panel-name { color: var(--c); }
+  .topic-count {
+    font-size: 11px; color: #555;
+    background: #1a1a2e; border-radius: 10px; padding: 2px 8px;
+  }
+  .chevron {
+    color: var(--c); font-size: 18px;
+    transition: transform .3s; display: inline-block;
+  }
+  .panel.open .chevron { transform: rotate(90deg); }
+
+  /* Topic list */
+  .topic-list { padding: 8px 12px 16px; background: #0d0d1a; display: none; }
+  .panel.open .topic-list { display: block; }
+
+  .topic-item { margin-bottom: 6px; }
+  .topic-btn {
+    width: 100%; background: transparent;
+    border: 1px solid transparent; border-radius: 8px;
+    color: #aaaacc; padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; text-align: left; transition: all .2s;
+    font-family: 'Space Mono', monospace;
+  }
+  .topic-btn:hover { background: #1a1a2e; border-color: #2a2a4a; color: #fff; }
+  .topic-item.open .topic-btn { background: #1a1a2e; border-color: #2a2a4a; color: #fff; }
+  .topic-btn-left { display: flex; align-items: center; gap: 10px; }
+  .diamond { font-size: 12px; color: var(--c); }
+  .topic-title { font-size: 14px; }
+  .topic-item.open .topic-title { font-weight: 700; }
+  .sub-count { font-size: 11px; color: #444; }
+  .t-chev { color: #444; font-size: 14px; transition: transform .2s; }
+  .topic-item.open .t-chev { transform: rotate(90deg); }
+
+  /* Subtopics */
+  .sub-list {
+    margin: 4px 0 4px 32px;
+    padding: 12px 16px;
+    background: #111120; border-radius: 8px;
+    border-left: 2px solid var(--cb);
+    display: none;
+  }
+  .topic-item.open .sub-list { display: block; }
+  .sub-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid #1a1a2a;
+  }
+  .sub-row:last-child { border-bottom: none; }
+  .sub-arrow { font-size: 10px; color: var(--c); margin-top: 3px; flex-shrink: 0; }
+  .sub-text { font-size: 13px; color: #9999bb; line-height: 1.5; flex: 1; }
+  .yt-link {
+    flex-shrink: 0; font-size: 10px; color: #FF6B6B;
+    text-decoration: none;
+    background: rgba(255,107,107,.1);
+    padding: 2px 8px; border-radius: 10px;
+    letter-spacing: .5px;
+    border: 1px solid rgba(255,107,107,.2);
+    white-space: nowrap;
+  }
+  .yt-link:hover { background: rgba(255,107,107,.25); }
+
+  /* Prof tip */
+  .tip {
+    margin-top: 32px; padding: 22px;
+    background: linear-gradient(135deg, rgba(0,255,178,.05), rgba(0,212,255,.05));
+    border: 1px solid rgba(0,255,178,.2); border-radius: 12px;
+  }
+  .tip-label { font-size: 11px; color: #00FFB2; letter-spacing: 3px; margin-bottom: 10px; }
+  .tip p { font-size: 13px; color: #8888aa; line-height: 1.9; }
+  .tip strong { color: #ccc; }
+  .tip .hl { color: #00D4FF; }
+
+  /* Semester hidden */
+  .semester { display: none; }
+  .semester.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="label">World-Class University Curriculum</div>
+  <h1>Computer Science</h1>
+  <p class="subtitle">4-Year Self-Study Roadmap · YouTube Edition</p>
+  <div class="channels">
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">MIT OpenCourseWare</span><span class="tag">Full Courses</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">CS50 Harvard</span><span class="tag">Beginner</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">Abdul Bari</span><span class="tag">Algorithms</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">Neso Academy</span><span class="tag">OS/Networks</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">3Blue1Brown</span><span class="tag">Math/ML</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">Fireship</span><span class="tag">Quick Concepts</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">TechWith Tim</span><span class="tag">Python</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">Andrej Karpathy</span><span class="tag">Deep Learning</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">NeetCode</span><span class="tag">LeetCode/DSA</span></div>
+    <div class="channel-pill"><span class="arrow">▶</span><span class="name">Gaurav Sen</span><span class="tag">System Design</span></div>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs" id="tabs"></div>
+
+<!-- SEMESTERS -->
+<main id="main"></main>
+
+<script>
+const curriculum = [
+  {
+    year: "Year 1 — Semester 1", color: "#00FFB2", icon: "🌱",
+    subjects: [
+      { name: "Introduction to Computer Science", topics: [
+        { title: "What is Computer Science?", subs: ["History of computing","Binary & number systems","How computers work","Hardware vs Software"] },
+        { title: "Introduction to Programming (Python)", subs: ["Variables & data types","Input/Output","Conditionals (if/else)","Loops (for, while)","Functions & scope","Lists & Dictionaries","Debugging basics"] },
+        { title: "Problem Solving & Algorithms", subs: ["What is an algorithm?","Flowcharts & pseudocode","Breaking down problems","Intro to Big O notation"] },
+      ]},
+      { name: "Mathematics for CS — Part 1", topics: [
+        { title: "Discrete Mathematics Basics", subs: ["Sets, relations & functions","Logic & propositional calculus","Proof techniques","Sequences & summations"] },
+        { title: "Calculus Foundations", subs: ["Limits & continuity","Derivatives","Integrals (basic)","Why calculus matters in CS"] },
+      ]},
+    ]
+  },
+  {
+    year: "Year 1 — Semester 2", color: "#00D4FF", icon: "⚡",
+    subjects: [
+      { name: "Data Structures", topics: [
+        { title: "Arrays & Strings", subs: ["Static vs dynamic arrays","String manipulation","Two-pointer technique"] },
+        { title: "Linked Lists", subs: ["Singly linked list","Doubly linked list","Circular linked list","Operations: insert, delete, search"] },
+        { title: "Stacks & Queues", subs: ["Stack: LIFO concept & operations","Queue: FIFO concept & operations","Priority Queue","Deque"] },
+        { title: "Trees", subs: ["Binary trees","Binary Search Tree (BST)","Tree traversals (inorder, preorder, postorder)","Balanced trees (AVL intro)"] },
+        { title: "Hash Tables", subs: ["Hash functions","Collision handling","Applications of hashing"] },
+      ]},
+      { name: "Object-Oriented Programming", topics: [
+        { title: "OOP Core Concepts", subs: ["Classes & Objects","Encapsulation","Inheritance","Polymorphism","Abstraction"] },
+        { title: "OOP in Python / Java", subs: ["Constructors & destructors","Method overriding","Interfaces & abstract classes","Design patterns intro"] },
+      ]},
+    ]
+  },
+  {
+    year: "Year 2 — Semester 1", color: "#FF6B6B", icon: "🔥",
+    subjects: [
+      { name: "Algorithms", topics: [
+        { title: "Sorting Algorithms", subs: ["Bubble, Selection, Insertion sort","Merge sort","Quick sort","Heap sort","Counting & Radix sort"] },
+        { title: "Searching Algorithms", subs: ["Linear search","Binary search","Search in rotated arrays"] },
+        { title: "Recursion & Backtracking", subs: ["Recursion fundamentals","Factorial, Fibonacci","Tower of Hanoi","Backtracking problems"] },
+        { title: "Greedy Algorithms", subs: ["Activity selection","Fractional knapsack","Huffman coding"] },
+        { title: "Dynamic Programming", subs: ["Memoization vs Tabulation","Fibonacci DP","0/1 Knapsack","Longest Common Subsequence","Coin change problem"] },
+      ]},
+      { name: "Computer Organization & Architecture", topics: [
+        { title: "Digital Logic", subs: ["Boolean algebra","Logic gates (AND, OR, NOT, XOR)","Combinational circuits","Sequential circuits & flip-flops"] },
+        { title: "CPU Architecture", subs: ["Von Neumann model","Registers & ALU","Instruction cycle (fetch, decode, execute)","Pipelining basics"] },
+        { title: "Memory Hierarchy", subs: ["Registers, Cache, RAM, Disk","Cache: direct-mapped, set-associative","Virtual memory & paging"] },
+        { title: "Assembly Language Basics", subs: ["Why learn assembly?","MIPS / x86 basics","Load/store, arithmetic instructions","Control flow in assembly"] },
+      ]},
+    ]
+  },
+  {
+    year: "Year 2 — Semester 2", color: "#FFB347", icon: "💻",
+    subjects: [
+      { name: "Operating Systems", topics: [
+        { title: "OS Fundamentals", subs: ["What an OS does","Kernel vs user space","System calls","Types of OS"] },
+        { title: "Process Management", subs: ["Process vs Thread","Process states & lifecycle","Context switching","Scheduling algorithms (FCFS, SJF, Round Robin)"] },
+        { title: "Concurrency", subs: ["Race conditions","Mutex & Semaphores","Deadlocks: detection & prevention","Producer-consumer problem"] },
+        { title: "Memory Management", subs: ["Segmentation & paging","Page replacement algorithms","Thrashing"] },
+        { title: "File Systems", subs: ["File system structure","Inodes & directories","FAT, NTFS, ext4 overview","File permissions"] },
+      ]},
+      { name: "Discrete Mathematics — Part 2", topics: [
+        { title: "Graph Theory", subs: ["Graph types & representations","BFS & DFS","Shortest path (Dijkstra, Bellman-Ford)","Minimum spanning tree (Kruskal, Prim)","Topological sort"] },
+        { title: "Combinatorics & Probability", subs: ["Permutations & combinations","Pigeonhole principle","Basic probability theory","Conditional probability & Bayes theorem"] },
+        { title: "Number Theory", subs: ["GCD & Euclidean algorithm","Modular arithmetic","Prime numbers & sieve","Applications in cryptography"] },
+      ]},
+    ]
+  },
+  {
+    year: "Year 3 — Semester 1", color: "#C77DFF", icon: "🧠",
+    subjects: [
+      { name: "Database Systems", topics: [
+        { title: "Relational Databases", subs: ["ER diagrams","Relational model & schema","SQL: SELECT, JOIN, GROUP BY, subqueries","Normalization (1NF, 2NF, 3NF, BCNF)"] },
+        { title: "Database Internals", subs: ["Indexing & B-trees","Query optimization","Transactions & ACID properties","Concurrency control","Recovery & logging"] },
+        { title: "NoSQL Databases", subs: ["Document stores (MongoDB)","Key-value stores (Redis)","CAP theorem","When to use NoSQL vs SQL"] },
+      ]},
+      { name: "Computer Networks", topics: [
+        { title: "Networking Fundamentals", subs: ["OSI model (all 7 layers)","TCP/IP model","IP addresses, subnetting, CIDR","DNS & DHCP"] },
+        { title: "Core Protocols", subs: ["TCP vs UDP","HTTP/HTTPS","FTP, SMTP, SSH","TLS/SSL basics"] },
+        { title: "Routing & Switching", subs: ["Routers vs switches","Routing algorithms (RIP, OSPF, BGP)","NAT & firewalls","VPN basics"] },
+        { title: "Network Security Basics", subs: ["Common attacks (DDoS, MITM, phishing)","Packet sniffing","Encryption basics","Firewalls & IDS"] },
+      ]},
+    ]
+  },
+  {
+    year: "Year 3 — Semester 2", color: "#4ECDC4", icon: "🏗️",
+    subjects: [
+      { name: "Software Engineering", topics: [
+        { title: "Software Development Life Cycle", subs: ["Waterfall, Agile, Scrum","Requirements engineering","Software design principles (SOLID)","Code reviews & testing"] },
+        { title: "Design Patterns", subs: ["Creational patterns (Singleton, Factory)","Structural patterns (Adapter, Decorator)","Behavioral patterns (Observer, Strategy)"] },
+        { title: "Version Control (Git)", subs: ["Git basics: commit, push, pull","Branching & merging","Resolving conflicts","GitHub workflow"] },
+        { title: "Testing", subs: ["Unit testing","Integration testing","Test-driven development (TDD)","Automated testing tools"] },
+      ]},
+      { name: "Theory of Computation", topics: [
+        { title: "Automata Theory", subs: ["Finite automata (DFA, NFA)","Regular expressions","Context-free grammars","Pushdown automata"] },
+        { title: "Computability", subs: ["Turing machines","Church-Turing thesis","Decidability & undecidability","Halting problem"] },
+        { title: "Complexity Theory", subs: ["P vs NP problem","NP-complete problems","Reduction techniques","Space complexity classes"] },
+      ]},
+    ]
+  },
+  {
+    year: "Year 4 — Semester 1", color: "#F72585", icon: "🚀",
+    subjects: [
+      { name: "Artificial Intelligence & Machine Learning", topics: [
+        { title: "AI Foundations", subs: ["Search algorithms (BFS, DFS, A*)","Heuristics","Game trees (Minimax, Alpha-Beta)"] },
+        { title: "Machine Learning Core", subs: ["Supervised vs Unsupervised learning","Linear & logistic regression","Decision trees & random forests","k-NN & SVM","Model evaluation: precision, recall, F1"] },
+        { title: "Deep Learning", subs: ["Neural network architecture","Backpropagation","CNNs (image recognition)","RNNs & LSTMs (sequences)","Transformers & attention mechanism"] },
+        { title: "Practical ML Tools", subs: ["NumPy, Pandas, Matplotlib","Scikit-learn","TensorFlow / PyTorch basics","Kaggle competitions"] },
+      ]},
+      { name: "Compiler Design", topics: [
+        { title: "Compilation Phases", subs: ["Lexical analysis & tokenization","Parsing & syntax trees","Semantic analysis","Intermediate code generation"] },
+        { title: "Optimization & Code Gen", subs: ["Code optimization techniques","Target code generation","Symbol tables","Error handling"] },
+      ]},
+    ]
+  },
+  {
+    year: "Year 4 — Semester 2", color: "#7B2FBE", icon: "🎓",
+    subjects: [
+      { name: "Cybersecurity", topics: [
+        { title: "Cryptography", subs: ["Symmetric encryption (AES, DES)","Asymmetric encryption (RSA)","Hash functions (SHA, MD5)","Digital signatures & PKI"] },
+        { title: "Web Security", subs: ["SQL Injection","XSS & CSRF","Authentication & authorization","OWASP Top 10"] },
+        { title: "System Security", subs: ["Buffer overflow attacks","Privilege escalation","Malware types","Penetration testing basics"] },
+      ]},
+      { name: "Distributed Systems", topics: [
+        { title: "Distributed Computing Concepts", subs: ["CAP theorem","Consistency models","Consensus (Raft, Paxos)","Distributed transactions"] },
+        { title: "Cloud Computing", subs: ["IaaS, PaaS, SaaS","AWS / GCP / Azure overview","Containerization (Docker)","Orchestration (Kubernetes basics)"] },
+        { title: "Microservices", subs: ["Monolith vs microservices","API gateways","Service discovery","Message queues (Kafka, RabbitMQ)"] },
+      ]},
+      { name: "Capstone & Career Skills", topics: [
+        { title: "System Design", subs: ["Design URL shortener, Twitter, Netflix","Load balancing","Caching strategies","Database sharding"] },
+        { title: "Competitive Programming", subs: ["LeetCode / Codeforces strategy","Common patterns","Interview prep","Time & space optimization tricks"] },
+        { title: "Open Source & Portfolio", subs: ["Contributing to open source","Building GitHub portfolio","Writing technical blogs","Networking in tech"] },
+      ]},
+    ]
+  },
+];
+
+// ── Build tabs ──────────────────────────────────────
+const tabsEl = document.getElementById('tabs');
+const mainEl = document.getElementById('main');
+
+curriculum.forEach((sem, si) => {
+  // Tab
+  const tab = document.createElement('button');
+  tab.className = 'tab' + (si === 0 ? ' active' : '');
+  tab.style.setProperty('--c', sem.color);
+  tab.textContent = sem.icon + ' ' + sem.year;
+  tab.addEventListener('click', () => activateSem(si));
+  tabsEl.appendChild(tab);
+
+  // Semester section
+  const section = document.createElement('div');
+  section.className = 'semester' + (si === 0 ? ' active' : '');
+  section.id = 'sem-' + si;
+
+  // Sem header
+  const semH = document.createElement('div');
+  semH.className = 'sem-header';
+  semH.innerHTML = `
+    <span class="sem-icon">${sem.icon}</span>
+    <div>
+      <div class="sem-label" style="color:${sem.color}">Now Studying</div>
+      <div class="sem-title">${sem.year}</div>
+    </div>`;
+  section.appendChild(semH);
+
+  // Subjects
+  sem.subjects.forEach((subject, subI) => {
+    const panel = document.createElement('div');
+    panel.className = 'panel';
+    panel.style.setProperty('--c', sem.color);
+    panel.style.setProperty('--c4', sem.color + '55');
+    panel.style.setProperty('--cb', sem.color + '44');
+
+    // Panel button
+    const pbtn = document.createElement('button');
+    pbtn.className = 'panel-btn';
+    pbtn.innerHTML = `
+      <div class="panel-btn-left">
+        <span class="dot"></span>
+        <span class="panel-name">${subject.name}</span>
+        <span class="topic-count">${subject.topics.length} topics</span>
+      </div>
+      <span class="chevron">›</span>`;
+    pbtn.addEventListener('click', () => panel.classList.toggle('open'));
+    panel.appendChild(pbtn);
+
+    // Topic list
+    const tlist = document.createElement('div');
+    tlist.className = 'topic-list';
+
+    subject.topics.forEach((topic, ti) => {
+      const tItem = document.createElement('div');
+      tItem.className = 'topic-item';
+
+      const tbtn = document.createElement('button');
+      tbtn.className = 'topic-btn';
+      tbtn.innerHTML = `
+        <div class="topic-btn-left">
+          <span class="diamond">◆</span>
+          <span class="topic-title">${topic.title}</span>
+          <span class="sub-count">(${topic.subs.length} subtopics)</span>
+        </div>
+        <span class="t-chev">›</span>`;
+      tbtn.addEventListener('click', () => tItem.classList.toggle('open'));
+      tItem.appendChild(tbtn);
+
+      // Subtopic list
+      const slist = document.createElement('div');
+      slist.className = 'sub-list';
+
+      topic.subs.forEach(sub => {
+        const row = document.createElement('div');
+        row.className = 'sub-row';
+        const ytURL = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(sub + ' tutorial');
+        row.innerHTML = `
+          <span class="sub-arrow">▸</span>
+          <span class="sub-text">${sub}</span>
+          <a class="yt-link" href="${ytURL}" target="_blank" rel="noopener noreferrer">▶ YouTube</a>`;
+        slist.appendChild(row);
+      });
+
+      tItem.appendChild(slist);
+      tlist.appendChild(tItem);
+    });
+
+    panel.appendChild(tlist);
+    section.appendChild(panel);
+  });
+
+  // Professor tip (last semester only shown once, we add to every sem for context)
+  const tip = document.createElement('div');
+  tip.className = 'tip';
+  tip.innerHTML = `
+    <div class="tip-label">📌 PROFESSOR'S TIP</div>
+    <p>
+      <strong>Study 2–3 subtopics per day.</strong> Watch the YouTube video, then immediately write code or solve a problem.
+      Theory without practice is wasted. Use <span class="hl">LeetCode</span> for DSA,
+      <span class="hl">CS50</span> for your first semester, and
+      <span class="hl">MIT OCW</span> for deep dives.
+      The best programmers in the world are self-taught learners — <em>consistency beats talent every time.</em>
+    </p>`;
+  section.appendChild(tip);
+
+  mainEl.appendChild(section);
+});
+
+function activateSem(idx) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.semester').forEach((s, i) => s.classList.toggle('active', i === idx));
+  // reset open states on switch
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.topic-item').forEach(t => t.classList.remove('open'));
+}
+</script>
+</body>
+</html>
